@@ -27,9 +27,9 @@ unsigned getWidth(unsigned size)
 
 int main(int argc, char *argv[])
 {
-	if(argc < 5)
+	if(argc < 6)
 	{
-		std::cout << "должны быть аргументы: имя_входного_файла имя_выходного_файла размер_входной_переменной размер_выходной_переменной" << std::endl;
+		std::cout << "должны быть аргументы: имя_входного_файла имя_выходного_файла размер_входной_переменной размер_выходной_переменной имя_выходной_переменной" << std::endl;
 		std::cout << "например: out_file.v 11 8" << std::endl;
 		return 0;
 	}
@@ -37,13 +37,14 @@ int main(int argc, char *argv[])
 	std::ofstream out(argv[2], std::ofstream::out);
 	unsigned num = 0;
 	unsigned inSize = atoi(argv[3]), outSize = atoi(argv[4]);
+	std::string outName = argv[5];
 	unsigned inWidth = getWidth(inSize),
 		outWidth = getWidth(outSize);
 	out.fill('0');
 	out << std::right;
 	for(auto ch:inputFile)
 	{
-		out << std::dec << std::setw(0) << inSize << "'h" << std::setw(inWidth) << std::hex << num++ << ": " << std::dec << std::setw(0) << outSize << "'h" << std::setw(outWidth) << std::hex << (int)ch << ";" << std::endl;
+		out << std::dec << std::setw(0) << inSize << "'h" << std::setw(inWidth) << std::hex << num++ << ": " << std::dec << std::setw(0) << outName << " = " << outSize << "'h" << std::setw(outWidth) << std::hex << (int)ch << ";" << std::endl;
 		//out << std::setw(inWidth) << std::hex << num++ << ": " << std::setw(outWidth) << std::right << std::hex << (int)ch << ";" << std::endl;
 	}
 	out.close();
